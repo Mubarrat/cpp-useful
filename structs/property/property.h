@@ -303,7 +303,7 @@ private:
      * @param oldValue The old value before the change.
      * @param newValue The new value after the change.
      */
-    void NotifyCallbacks(const T& oldValue, const T& newValue)
+    void NotifyCallbacks(T& oldValue, T& newValue)
     {
         for (const auto& callbackPair : m_callbacks)
             if (const auto& callback = callbackPair.second)
@@ -315,7 +315,7 @@ private:
      * @param oldValue The old value before the change.
      * @param newValue The new value after the change.
      */
-    void NotifyBindings(const T& oldValue, const T& newValue)
+    void NotifyBindings(T& oldValue, T& newValue)
     {
         for (Property<T>* binding : m_bindings)
         {
