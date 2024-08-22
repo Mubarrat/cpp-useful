@@ -164,13 +164,13 @@ public:
      * @brief Arrow operator to access members of the underlying value.
      * 
      * This operator allows direct access to the members of the underlying value
-     * if the type `T` is a class or struct. It returns a pointer to `m_value`.
+     * if the type `T` is a class or struct. It returns the underlying value.
      *
-     * @return A pointer to the underlying value.
+     * @return The current value of the property.
      */
-    T* operator->()
+    T operator->()
     {
-        return &m_value;
+        return (T)this;
     }
 
     /**
