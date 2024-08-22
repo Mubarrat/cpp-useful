@@ -157,8 +157,20 @@ public:
      */
     operator T() const
     {
-        lock_guard<mutex> lock(m_mutex); // Ensure thread-safety.
         return m_value;
+    }
+
+    /**
+     * @brief Arrow operator to access members of the underlying value.
+     * 
+     * This operator allows direct access to the members of the underlying value
+     * if the type `T` is a class or struct. It returns a pointer to `m_value`.
+     *
+     * @return A pointer to the underlying value.
+     */
+    T* operator->()
+    {
+        return &m_value;
     }
 
     /**
@@ -221,7 +233,6 @@ public:
      */
     void AddOneWayBind(Property<T>& other)
     {
-        lock_guard<mutex> lock(m_mutex); // Ensure thread-safety.
         m_bindings.insert(&other); // Add to bindings.
     }
 
@@ -231,7 +242,6 @@ public:
      */
     void RemoveOneWayBind(Property<T>& other)
     {
-        lock_guard<mutex> lock(m_mutex); // Ensure thread-safety.
         m_bindings.erase(&other); // Remove from bindings.
     }
 
@@ -241,7 +251,6 @@ public:
      */
     void AddOneWayToSourceBind(Property<T>& other)
     {
-        lock_guard<mutex> lock(m_mutex); // Ensure thread-safety.
         other.AddOneWayBind(*this); // Add this property to the other property's bindings.
     }
 
@@ -251,7 +260,6 @@ public:
      */
     void RemoveOneWayToSourceBind(Property<T>& other)
     {
-        lock_guard<mutex> lock(m_mutex); // Ensure thread-safety.
         other.RemoveOneWayBind(*this); // Remove this property from the other property's bindings.
     }
 
@@ -261,7 +269,6 @@ public:
      */
     void AddBind(Property<T>& other)
     {
-        lock_guard<mutex> lock(m_mutex); // Ensure thread-safety.
         AddOneWayBind(other); // Add one-way binding to the other property.
         AddOneWayToSourceBind(other); // Add one-way-to-source binding with the other property.
     }
@@ -272,7 +279,6 @@ public:
      */
     void RemoveBind(Property<T>& other)
     {
-        lock_guard<mutex> lock(m_mutex); // Ensure thread-safety.
         RemoveOneWayBind(other); // Remove one-way binding to the other property.
         RemoveOneWayToSourceBind(other); // Remove one-way-to-source binding with the other property.
     }
